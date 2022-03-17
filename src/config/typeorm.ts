@@ -22,7 +22,7 @@ export function getOrmConfig(): TypeOrmModuleOptions {
     password: PG_PASSWORD,
     database: PG_DATABASE,
     namingStrategy: new SnakeNamingStrategy(),
-    entities: [join(__dirname, '..', '/*.entity.{js,ts}')],
+    entities: [join(__dirname, '..', '/**', '/*.entity.{js,ts}')],
     synchronize: false,
     migrations: [join(__dirname, '..', '/migrations', '/*.{ts,js}')],
     migrationsTableName: 'migrations',
