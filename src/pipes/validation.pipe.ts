@@ -1,6 +1,12 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import {
+  ArgumentMetadata,
+  HttpStatus,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+import { ValidationException } from '../errors/validation.exception';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<unknown> {
@@ -9,11 +15,18 @@ export class ValidationPipe implements PipeTransform<unknown> {
     metadata: ArgumentMetadata,
   ): Promise<unknown> {
     const obj = plainToInstance(metadata.metatype, value);
+
     const errors = await validate(obj);
 
     if (errors.length) {
-      return errors.map((err) => {
+      const messages = errors.map((err) => {
         return `${err.property} - ${Object.values(err.constraints).join(', ')}`;
+      });
+
+      throw new ValidationException({
+        message: 'Ошибка валидации!',
+        errors: messages,
+        statusCode: HttpStatus.BAD_REQUEST,
       });
     }
 
