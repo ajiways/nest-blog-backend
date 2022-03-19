@@ -1,16 +1,26 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length, Matches } from 'class-validator';
 
 export class RegistrationDto {
-  @IsString({ message: 'Логин должен быть строкой' })
-  @Length(4, 16, { message: 'От 4 до 16 символов' })
+  @ApiProperty({ type: String, description: 'User login' })
+  @IsString({ message: 'Login must be a string' })
+  @Length(4, 16, {
+    message: 'Login must be more than 4 and less than 16 characters',
+  })
   login: string;
 
-  @IsString({ message: 'Логин должен быть строкой' })
+  @ApiProperty({ type: String, description: 'User password' })
+  @IsString({ message: 'Password must be a string' })
+  @Length(6, 16, {
+    message: 'Password must be more than 6 and less than 16 characters',
+  })
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'Слишком простой пароль',
+    message:
+      'Password is too easy, try to add 1 capital letter, 1 lowercase letter, one digit etc',
   })
   password: string;
 
-  @IsString({ message: 'Подтверждение пароля должно быть строкой' })
+  @ApiProperty({ type: String, description: 'Password confirm' })
+  @IsString({ message: 'Password confirm must be a string' })
   confirm: string;
 }
