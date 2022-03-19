@@ -6,5 +6,6 @@ export class ValidationException extends HttpException {
 
   constructor(error: ValidationError) {
     super(error, HttpStatus.BAD_REQUEST);
+    this.name = 'ValidationException';
   }
 }
