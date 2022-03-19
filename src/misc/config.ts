@@ -12,3 +12,4 @@ export const PG_PORT = configService.get<number>('PG_PORT');
 export const APP_PORT = configService.get<number>('APP_PORT');
 export const REFRESH_SECRET = configService.get<string>('REFRESH_SECRET');
 export const ACCESS_SECRET = configService.get<string>('ACCESS_SECRET');
+export const CLIENT_ORIGIN = configService.get<string>('CLIENT_ORIGIN');
