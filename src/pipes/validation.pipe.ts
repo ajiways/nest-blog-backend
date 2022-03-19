@@ -24,7 +24,7 @@ export class ValidationPipe implements PipeTransform<unknown> {
       });
 
       throw new ValidationException({
-        message: 'Ошибка валидации!',
+        message: 'Validation error!',
         errors: messages,
         statusCode: HttpStatus.BAD_REQUEST,
       });
