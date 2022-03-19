@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './modules/auth/user.entity';
+import { User } from '../user/user.entity';
 
 @Entity('posts')
 export class Post extends BaseEntity {
@@ -17,6 +17,9 @@ export class Post extends BaseEntity {
     type: 'text',
   })
   htmlContent: string;
+
+  @Column({ type: 'text' })
+  markdown: string;
 
   @CreateDateColumn()
   createdAt: Date;
