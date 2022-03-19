@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { TokenService } from '../modules/token/token.service';
 import { UserService } from '../modules/user/user.service';
+import { CustomRequest } from './interfaces/custom.request.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,9 +17,13 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request: CustomRequest = context.switchToHttp().getRequest();
 
-    const token = request.cookies.token;
+    if (!request.headers.authorization) {
+      throw new HttpException('User is unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    const token = request.headers.authorization.split(' ')[1];
     const decodedData = this.tokenService.validateAccessToken(token);
 
     if (!token || !decodedData) {
@@ -34,6 +39,7 @@ export class AuthGuard implements CanActivate {
           HttpStatus.UNAUTHORIZED,
         );
       } else {
+        request.user = user;
         return true;
       }
     }
