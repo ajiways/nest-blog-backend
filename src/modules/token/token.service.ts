@@ -90,12 +90,10 @@ export class TokenService {
       throw new HttpException('Server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    return await this.tokenRepository
-      .create({
-        user,
-        refreshToken,
-      })
-      .save();
+    return await this.tokenRepository.save({
+      user,
+      refreshToken,
+    });
   }
 
   async refresh(refreshToken: string) {

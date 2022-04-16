@@ -17,11 +17,9 @@ export class UserService {
   }
 
   async createUser(data: CreateUserDto) {
-    return await this.userRepository
-      .create({
-        login: data.login,
-        password: data.password,
-      })
-      .save();
+    return await this.userRepository.save({
+      login: data.login,
+      password: data.password,
+    });
   }
 }
